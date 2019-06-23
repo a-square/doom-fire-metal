@@ -8,24 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		B61D096D22BF6CF800CF8A95 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B61D096C22BF6CF800CF8A95 /* AppDelegate.m */; };
-		B61D097022BF6CF800CF8A95 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61D096F22BF6CF800CF8A95 /* ViewController.m */; };
-		B61D097322BF6CF800CF8A95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61D097122BF6CF800CF8A95 /* Main.storyboard */; };
 		B61D097522BF6CFC00CF8A95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B61D097422BF6CFC00CF8A95 /* Assets.xcassets */; };
-		B61D097822BF6CFC00CF8A95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61D097622BF6CFC00CF8A95 /* LaunchScreen.storyboard */; };
 		B61D097B22BF6CFC00CF8A95 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B61D097A22BF6CFC00CF8A95 /* main.m */; };
+		B61D098322BF732B00CF8A95 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B61D098222BF732B00CF8A95 /* MainViewController.m */; };
+		B61D098622BF75D600CF8A95 /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = B61D098522BF75D600CF8A95 /* Renderer.m */; };
+		B61D098822BF8BE400CF8A95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61D098722BF8BE400CF8A95 /* LaunchScreen.storyboard */; };
+		B61D098C22C0045E00CF8A95 /* FireBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = B61D098B22C0045E00CF8A95 /* FireBuffer.c */; };
+		B61D098E22C01AB900CF8A95 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B61D098D22C01AB900CF8A95 /* Shaders.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B61D096822BF6CF800CF8A95 /* DoomFire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoomFire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B61D096B22BF6CF800CF8A95 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B61D096C22BF6CF800CF8A95 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B61D096E22BF6CF800CF8A95 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B61D096F22BF6CF800CF8A95 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		B61D097222BF6CF800CF8A95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B61D097422BF6CFC00CF8A95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B61D097722BF6CFC00CF8A95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B61D097922BF6CFC00CF8A95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B61D097A22BF6CFC00CF8A95 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B61D098122BF732B00CF8A95 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		B61D098222BF732B00CF8A95 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		B61D098422BF75D600CF8A95 /* Renderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		B61D098522BF75D600CF8A95 /* Renderer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
+		B61D098722BF8BE400CF8A95 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B61D098922BF8EFC00CF8A95 /* ShaderTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTypes.h; sourceTree = "<group>"; };
+		B61D098A22C0044E00CF8A95 /* FireBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FireBuffer.h; sourceTree = "<group>"; };
+		B61D098B22C0045E00CF8A95 /* FireBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FireBuffer.c; sourceTree = "<group>"; };
+		B61D098D22C01AB900CF8A95 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,13 +67,18 @@
 			children = (
 				B61D096B22BF6CF800CF8A95 /* AppDelegate.h */,
 				B61D096C22BF6CF800CF8A95 /* AppDelegate.m */,
-				B61D096E22BF6CF800CF8A95 /* ViewController.h */,
-				B61D096F22BF6CF800CF8A95 /* ViewController.m */,
-				B61D097122BF6CF800CF8A95 /* Main.storyboard */,
 				B61D097422BF6CFC00CF8A95 /* Assets.xcassets */,
-				B61D097622BF6CFC00CF8A95 /* LaunchScreen.storyboard */,
 				B61D097922BF6CFC00CF8A95 /* Info.plist */,
 				B61D097A22BF6CFC00CF8A95 /* main.m */,
+				B61D098122BF732B00CF8A95 /* MainViewController.h */,
+				B61D098222BF732B00CF8A95 /* MainViewController.m */,
+				B61D098422BF75D600CF8A95 /* Renderer.h */,
+				B61D098522BF75D600CF8A95 /* Renderer.m */,
+				B61D098D22C01AB900CF8A95 /* Shaders.metal */,
+				B61D098A22C0044E00CF8A95 /* FireBuffer.h */,
+				B61D098B22C0045E00CF8A95 /* FireBuffer.c */,
+				B61D098922BF8EFC00CF8A95 /* ShaderTypes.h */,
+				B61D098722BF8BE400CF8A95 /* LaunchScreen.storyboard */,
 			);
 			path = DoomFire;
 			sourceTree = "<group>";
@@ -128,9 +140,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B61D097822BF6CFC00CF8A95 /* LaunchScreen.storyboard in Resources */,
 				B61D097522BF6CFC00CF8A95 /* Assets.xcassets in Resources */,
-				B61D097322BF6CF800CF8A95 /* Main.storyboard in Resources */,
+				B61D098822BF8BE400CF8A95 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,32 +152,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B61D097022BF6CF800CF8A95 /* ViewController.m in Sources */,
+				B61D098E22C01AB900CF8A95 /* Shaders.metal in Sources */,
+				B61D098622BF75D600CF8A95 /* Renderer.m in Sources */,
+				B61D098C22C0045E00CF8A95 /* FireBuffer.c in Sources */,
 				B61D097B22BF6CFC00CF8A95 /* main.m in Sources */,
+				B61D098322BF732B00CF8A95 /* MainViewController.m in Sources */,
 				B61D096D22BF6CF800CF8A95 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		B61D097122BF6CF800CF8A95 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B61D097222BF6CF800CF8A95 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B61D097622BF6CFC00CF8A95 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B61D097722BF6CFC00CF8A95 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B61D097C22BF6CFC00CF8A95 /* Debug */ = {
@@ -286,6 +281,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HBU6G2HSBW;
 				INFOPLIST_FILE = DoomFire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,6 +298,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HBU6G2HSBW;
 				INFOPLIST_FILE = DoomFire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
