@@ -44,10 +44,11 @@ fragmentShader(RasterizerData in [[stage_in]],
                                       min_filter::nearest);
 
     uint4 sample = colorTexture.sample(textureSampler, in.textureCoordinate);
-    float bleachedIntensity = sample.x / (float)MAX_LIT;
-    float intensity = pow(bleachedIntensity, 2.2f);
-    float r = saturate(2.0f * bleachedIntensity);
-    float g = intensity;
+    float gammaIntensity = sample.x / (float)MAX_LIT;
+    float halfGammaIntensity = pow(gammaIntensity, 1.5f);
+    float intensity = pow(gammaIntensity, 2.2f);
+    float r = saturate(1.8f * halfGammaIntensity);
+    float g = saturate(1.4f * intensity - 0.3f);
     float b = saturate(2.0f * intensity - 1.0f);
     return vector_float4(r, g, b, 1.0f);
 }
