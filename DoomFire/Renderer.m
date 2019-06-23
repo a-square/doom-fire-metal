@@ -110,7 +110,6 @@ static const Vertex QUAD_VERTICES[] = {
         [encoder setViewport:_viewport];
         [encoder setRenderPipelineState:_pipelineState];
         [encoder setVertexBuffer:_vertexBuffer offset:0 atIndex:InputIndexVertices];
-        //[encoder setVertexBytes:&_viewportSize length:sizeof(_viewportSize) atIndex:InputIndexViewportSize];
         [encoder setFragmentTexture:_texture atIndex:TextureIndexColor];
         [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:sizeof(QUAD_VERTICES) / sizeof(QUAD_VERTICES[0])];
         [encoder endEncoding];

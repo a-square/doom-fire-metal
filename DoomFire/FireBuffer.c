@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SLACK 16
+#define SLACK 32
 
 static inline uint32_t xorshift32(uint32_t x) {
     /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
@@ -38,21 +38,27 @@ void destroyFireBuffer(uint32_t* restrict buffer) {
 
 void updateFireBuffer(uint32_t* restrict buffer, uint32_t width, uint32_t height) {
     uint32_t rnd = (rand() << 16) ^ (rand() & 0xffffu);
+    uint32_t rndRem = rnd;
     for (uint32_t y = 0; y < height - 1; ++y) {
         bool rowLit = false;
-        for (uint32_t x = 0; x < width; ++x) {
-            uint32_t src = y * width + x;
-            uint32_t pixel = buffer[src];
+        for (uint32_t x = 0; x < width; x += 16) {
+            uint32_t base = y * width + x;
+            for (uint32_t i = 0; i < 16; ++i) {
+                uint32_t src = base + i;
+                uint32_t pixel = buffer[src];
 
-            // NOTE(a-square): most pixels aren't going to be lit
-            // so an extra branch is probably worth having an early stopping
-            // criterion
-            if (pixel != 0) {
-                uint32_t dst = src + width + 1 - (rnd & 3);
-                buffer[dst] = pixel - (rnd & 1);
-                rnd = xorshift32(rnd);
-                rowLit = true;
+                // NOTE(a-square): most pixels aren't going to be lit
+                // so an extra branch is probably worth having an early stopping
+                // criterion
+                if (pixel != 0) {
+                    uint32_t dst = src + width + 1 - (rndRem & 3);
+                    buffer[dst] = pixel - (rndRem & 1);
+                    rndRem >>= 2;
+                    rowLit = true;
+                }
             }
+            rnd = xorshift32(rnd);
+            rndRem = rnd;
         }
         if (!rowLit) {
             break;
