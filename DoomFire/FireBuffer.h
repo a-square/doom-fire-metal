@@ -11,6 +11,6 @@
 #include "ShaderTypes.h"
 #include <inttypes.h>
 
-int32_t* createFireBuffer(uint32_t width, uint32_t height);
-void destroyFireBuffer(int32_t* restrict buffer);
-void updateFireBuffer(int32_t* restrict buffer, uint32_t width, uint32_t height);
+i32* createFireBuffer(u32 width, u32 height);
+void destroyFireBuffer(i32* restrict buffer);
+void updateFireBuffer(i32* restrict buffer, u32 width, u32 height);

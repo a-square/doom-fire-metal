@@ -12,70 +12,78 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SLACK 32
+#define SLACK 128
 
-static inline uint32_t xorshift32(uint32_t x) {
-    /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
+static inline u32 rand32() {
+    return (rand() << 16) ^ (rand() & 0xffffu);
+}
+
+static inline u64 rand64() {
+    return ((u64)rand32() << 32) ^ (u64)rand32();
+}
+
+static inline u32 xorshift32(u32 x) {
     x ^= x << 13;
     x ^= x >> 17;
     x ^= x << 5;
     return x;
 }
 
-int32_t* createFireBuffer(uint32_t width, uint32_t height) {
-    uint32_t allocSize = sizeof(uint32_t) * (width * height + 2 * SLACK);
-    int32_t* buffer = malloc(allocSize);
+static inline u64 xorshift64(u64 x) {
+    x ^= x << 13;
+    x ^= x >> 7;
+    x ^= x << 17;
+    return x;
+}
+
+
+i32* createFireBuffer(u32 width, u32 height) {
+    u32 allocSize = sizeof(u32) * (width * height + 2 * SLACK);
+    i32* buffer = malloc(allocSize);
     memset(buffer, 0, allocSize);
-    for (int32_t i = 0; i < SLACK + width; ++i) {
+    for (i32 i = 0; i < SLACK + width; ++i) {
         buffer[i] = MAX_LIT;
     }
     return buffer + SLACK;
 }
 
-void destroyFireBuffer(int32_t* restrict buffer) {
+void destroyFireBuffer(i32* restrict buffer) {
     free(buffer - SLACK);
 }
 
-void updateFireBuffer(int32_t* restrict buffer, uint32_t width, uint32_t height) {
-    uint32_t rnd1 = (rand() << 16) ^ (rand() & 0xffffu);
-    uint32_t rnd2 = (rand() << 16) ^ (rand() & 0xffffu);
-    uint32_t effectiveHeight = height - (height >> 2);
-    for (uint32_t y = 0; y < effectiveHeight; ++y) {
-        for (uint32_t x = 0; x < width; x += 16) {
-            rnd1 = xorshift32(rnd1);
+void updateFireBuffer(i32* restrict buffer, u32 width, u32 height) {
+    u64 rnd1 = rand64();
+    u32 rnd2 = rand32();
+
+    for (u32 y = 0; y < height - 1; ++y) {
+        for (u32 x = 0; x < width; x += 32) {
+            rnd1 = xorshift64(rnd1);
             rnd2 = xorshift32(rnd2);
-            uint32_t rem1 = rnd1;
-            uint32_t rem2 = rnd2;
-            uint32_t base = y * width + x;
-            for (uint32_t i = 0; i < 16; i += 4) {
-                uint32_t src = base + i;
 
-                int32_t p0 = buffer[src];
-                int32_t p1 = buffer[src + 1];
-                int32_t p2 = buffer[src + 2];
-                int32_t p3 = buffer[src + 3];
+            u64 rem1 = rnd1;
+            u32 rem2 = rnd2;
 
-                uint32_t dstBase = src + width + 2;
+            u32 base = y * width + x;
+            for (u32 i = 0; i < 32; i += 4) {
+                u32 src = base + i;
 
-                uint32_t rem10 = rem1;
-                uint32_t rem11 = rem1 >> 2;
-                uint32_t rem12 = rem1 >> 4;
-                uint32_t rem13 = rem1 >> 6;
+                i32 p0 = buffer[src];
+                i32 p1 = buffer[src + 1];
+                i32 p2 = buffer[src + 2];
+                i32 p3 = buffer[src + 3];
 
-                uint32_t rem20 = rem2;
-                uint32_t rem21 = rem2 >> 1;
-                uint32_t rem22 = rem2 >> 2;
-                uint32_t rem23 = rem2 >> 3;
+                u32 dstBase = src + width + 2;
 
-                uint32_t dst0 = dstBase - (rem10 & 3);
-                uint32_t dst1 = dstBase + 1 - (rem11 & 3);
-                uint32_t dst2 = dstBase + 2 - (rem12 & 3);
-                uint32_t dst3 = dstBase + 3 - (rem13 & 3);
+                u32 rem1_32 = (u32)rem1;
+                u32 dst0 = dstBase - (rem1_32 & 3);
+                u32 dst1 = dstBase + 1 - ((rem1_32 >> 2) & 3);
+                u32 dst2 = dstBase + 2 - ((rem1_32 >> 4) & 3);
+                u32 dst3 = dstBase + 3 - ((rem1_32 >> 6) & 3);
 
-                buffer[dst0] = p0 - (rem20 & 1);
-                buffer[dst1] = p1 - (rem21 & 1);
-                buffer[dst2] = p2 - (rem22 & 1);
-                buffer[dst3] = p3 - (rem23 & 1);
+                buffer[dst0] = p0 - (rem2 & 1);
+                buffer[dst1] = p1 - ((rem2 >> 1) & 1);
+                buffer[dst2] = p2 - ((rem2 >> 2) & 1);
+                buffer[dst3] = p3 - ((rem2 >> 3) & 1);
 
                 rem1 >>= 8;
                 rem2 >>= 4;
