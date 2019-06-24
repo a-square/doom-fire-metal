@@ -41,7 +41,7 @@ static const Vertex QUAD_VERTICES[] = {
 
     MTKView* view = [[MTKView alloc] initWithFrame:[[UIScreen mainScreen] bounds] device:device];
     view.layer.magnificationFilter = kCAFilterNearest;
-    view.preferredFramesPerSecond = 30;
+    view.preferredFramesPerSecond = 60;
 
     NSAssert(view, @"Metal view failed to initialize");
     return view;
