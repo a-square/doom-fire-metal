@@ -37,14 +37,14 @@ vertexShader(uint vertexID [[ vertex_id ]],
 // Fragment function
 fragment float4
 fragmentShader(RasterizerData in [[stage_in]],
-               texture2d<uint> colorTexture [[ texture(TextureIndexColor) ]])
+               texture2d<int> colorTexture [[ texture(TextureIndexColor) ]])
 {
     // TODO(a-square): read without sampling?
     constexpr sampler textureSampler (mag_filter::nearest,
                                       min_filter::nearest);
 
-    uint4 sample = colorTexture.sample(textureSampler, in.textureCoordinate);
-    float gammaIntensity = sample.x / (float)MAX_LIT;
+    int4 sample = colorTexture.sample(textureSampler, in.textureCoordinate);
+    float gammaIntensity = saturate(sample.x / (float)MAX_LIT);
     float halfGammaIntensity = pow(gammaIntensity, 1.5f);
     float intensity = pow(gammaIntensity, 2.2f);
     float r = saturate(1.8f * halfGammaIntensity);

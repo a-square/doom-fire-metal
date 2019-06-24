@@ -32,7 +32,7 @@ static const Vertex QUAD_VERTICES[] = {
     simd_uint2 _viewportSize;
 
     id<MTLTexture> _texture;
-    uint32_t* _textureBytes;
+    int32_t* _textureBytes;
 }
 
 + (nonnull MTKView *)createMetalView {
@@ -63,7 +63,7 @@ static const Vertex QUAD_VERTICES[] = {
         NSAssert(_textureBytes, @"Failed to allocate fire bytes");
 
         MTLTextureDescriptor* texDtor = [[MTLTextureDescriptor alloc] init];
-        texDtor.pixelFormat = MTLPixelFormatR32Uint;
+        texDtor.pixelFormat = MTLPixelFormatR32Sint;
         texDtor.width = _viewportSize.x;
         texDtor.height = _viewportSize.y;
         _texture = [_device newTextureWithDescriptor:texDtor];
