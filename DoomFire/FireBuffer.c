@@ -55,6 +55,11 @@ void updateFireBuffer(i32* restrict buffer, u32 width, u32 height) {
     u64 rnd1 = rand64();
     u32 rnd2 = rand32();
 
+    // NOTE(a-square): this is NOT how the original Doom fire was spread,
+    // because we iterating in the hot-to-cold order whereas Doom fire
+    // was iterated in the cold-to-hot order
+    //
+    // My wife thinks this way is more fire-like
     for (u32 y = 0; y < height - 1; ++y) {
         for (u32 x = 0; x < width; x += 32) {
             rnd1 = xorshift64(rnd1);
