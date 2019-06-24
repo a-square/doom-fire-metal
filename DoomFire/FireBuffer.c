@@ -52,7 +52,7 @@ void updateFireBuffer(int32_t* restrict buffer, uint32_t width, uint32_t height)
                 int32_t p2 = buffer[src + 2];
                 int32_t p3 = buffer[src + 3];
 
-                uint32_t dstBase = src + width + 1;
+                uint32_t dstBase = src + width + 2;
 
                 uint32_t rem0 = rndRem;
                 uint32_t rem1 = rndRem >> 2;
