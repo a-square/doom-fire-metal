@@ -8,9 +8,11 @@
 
 #pragma once
 
-#include "ShaderTypes.h"
-#include <inttypes.h>
+#include "Ints.h"
 
 i32* createFireBuffer(u32 width, u32 height);
-void destroyFireBuffer(i32* restrict buffer);
-void updateFireBuffer(i32* restrict buffer, u32 width, u32 height);
+void destroyFireBuffer(i32* buffer);
+
+void updateFireBufferUnrolled(i32* restrict buffer, u32 width, u32 height);
+
+#define updateFireBuffer updateFireBufferUnrolled

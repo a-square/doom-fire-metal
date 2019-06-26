@@ -12,7 +12,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define SLACK 128
+enum {
+    SLACK = 128,
+};
 
 static inline u32 rand32() {
     return (rand() << 16) ^ (rand() & 0xffffu);
@@ -47,19 +49,19 @@ i32* createFireBuffer(u32 width, u32 height) {
     return buffer + SLACK;
 }
 
-void destroyFireBuffer(i32* restrict buffer) {
+void destroyFireBuffer(i32* buffer) {
     free(buffer - SLACK);
 }
 
-void updateFireBuffer(i32* restrict buffer, u32 width, u32 height) {
+void updateFireBufferUnrolled(i32* restrict buffer, u32 width, u32 height) {
     u64 rnd1 = rand64();
     u32 rnd2 = rand32();
 
     // NOTE(a-square): this is NOT how the original Doom fire was spread,
-    // because we iterating in the hot-to-cold order whereas Doom fire
-    // was iterated in the cold-to-hot order
+    // because we're iterating in the hot-to-cold order whereas Doom fire
+    // iterated in the cold-to-hot order
     //
-    // My wife thinks this way is more fire-like
+    // My wife thinks this is more fire-like
     for (u32 y = 0; y < height - 1; ++y) {
         for (u32 x = 0; x < width; x += 32) {
             rnd1 = xorshift64(rnd1);

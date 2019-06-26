@@ -10,6 +10,7 @@
 
 #include "ShaderTypes.h"
 #include "FireBuffer.h"
+#include "Timer.h"
 
 static const Vertex QUAD_VERTICES[] = {
     { {-1, -1}, {0, 0} },
@@ -33,6 +34,9 @@ static const Vertex QUAD_VERTICES[] = {
 
     id<MTLTexture> _texture;
     int32_t* _textureBytes;
+
+    Timer _updateFireTimer;
+    Timer _replaceRegionTimer;
 }
 
 + (nonnull MTKView *)createMetalView {
@@ -91,6 +95,10 @@ static const Vertex QUAD_VERTICES[] = {
         _viewport = (MTLViewport){0, 0, _viewportSize.x * PIXEL_SIZE, _viewportSize.y * PIXEL_SIZE, -1, 1};
 
         _vertexBuffer = [_device newBufferWithBytes:QUAD_VERTICES length:sizeof(QUAD_VERTICES) options:MTLResourceStorageModeShared];
+
+        timerSystemInit();
+        timerInit(&_updateFireTimer, "Update fire");
+        timerInit(&_replaceRegionTimer, "Replace region");
     }
     return self;
 }
@@ -99,12 +107,17 @@ static const Vertex QUAD_VERTICES[] = {
     id<MTLCommandBuffer> cmdBuffer = [_commandQueue commandBuffer];
     cmdBuffer.label = @"Fire command";
 
+    double millis;
     MTLRenderPassDescriptor* desc = view.currentRenderPassDescriptor;
     if (desc) {
+        millis = timerMillis();
         updateFireBuffer(_textureBytes, _viewportSize.x, _viewportSize.y);
+        timerUpdate(&_updateFireTimer, timerMillis() - millis);
 
+        //millis = timerMillis();
         MTLRegion region = MTLRegionMake2D(0, 0, _viewportSize.x, _viewportSize.y);
         [_texture replaceRegion:region mipmapLevel:0 withBytes:_textureBytes bytesPerRow:sizeof(_textureBytes[0]) * _viewportSize.x];
+        //timerUpdate(&_replaceRegionTimer, timerMillis() - millis);
 
         id<MTLRenderCommandEncoder> encoder = [cmdBuffer renderCommandEncoderWithDescriptor:desc];
         [encoder setViewport:_viewport];

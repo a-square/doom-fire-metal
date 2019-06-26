@@ -15,6 +15,7 @@
 		B61D098822BF8BE400CF8A95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B61D098722BF8BE400CF8A95 /* LaunchScreen.storyboard */; };
 		B61D098C22C0045E00CF8A95 /* FireBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = B61D098B22C0045E00CF8A95 /* FireBuffer.c */; };
 		B61D098E22C01AB900CF8A95 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B61D098D22C01AB900CF8A95 /* Shaders.metal */; };
+		B61E8EEF22C37423007D31D9 /* Timer.c in Sources */ = {isa = PBXBuildFile; fileRef = B61E8EEE22C37423007D31D9 /* Timer.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,9 @@
 		B61D098A22C0044E00CF8A95 /* FireBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FireBuffer.h; sourceTree = "<group>"; };
 		B61D098B22C0045E00CF8A95 /* FireBuffer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = FireBuffer.c; sourceTree = "<group>"; };
 		B61D098D22C01AB900CF8A95 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
+		B61E8EEA22C36B6C007D31D9 /* Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
+		B61E8EED22C36BDE007D31D9 /* Ints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ints.h; sourceTree = "<group>"; };
+		B61E8EEE22C37423007D31D9 /* Timer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Timer.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +81,10 @@
 				B61D098D22C01AB900CF8A95 /* Shaders.metal */,
 				B61D098A22C0044E00CF8A95 /* FireBuffer.h */,
 				B61D098B22C0045E00CF8A95 /* FireBuffer.c */,
+				B61E8EEA22C36B6C007D31D9 /* Timer.h */,
+				B61E8EEE22C37423007D31D9 /* Timer.c */,
 				B61D098922BF8EFC00CF8A95 /* ShaderTypes.h */,
+				B61E8EED22C36BDE007D31D9 /* Ints.h */,
 				B61D098722BF8BE400CF8A95 /* LaunchScreen.storyboard */,
 			);
 			path = DoomFire;
@@ -156,6 +163,7 @@
 				B61D098622BF75D600CF8A95 /* Renderer.m in Sources */,
 				B61D098C22C0045E00CF8A95 /* FireBuffer.c in Sources */,
 				B61D097B22BF6CFC00CF8A95 /* main.m in Sources */,
+				B61E8EEF22C37423007D31D9 /* Timer.c in Sources */,
 				B61D098322BF732B00CF8A95 /* MainViewController.m in Sources */,
 				B61D096D22BF6CF800CF8A95 /* AppDelegate.m in Sources */,
 			);

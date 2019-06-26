@@ -10,13 +10,10 @@
 
 #include <simd/simd.h>
 
-typedef uint32_t u32;
-typedef int32_t i32;
-typedef uint64_t u64;
-typedef int64_t i64;
-
-#define MAX_LIT 128
-#define PIXEL_SIZE 4
+enum {
+    MAX_LIT = 128,
+    PIXEL_SIZE = 4,
+};
 
 typedef enum {
     InputIndexVertices = 0,
