@@ -12,12 +12,10 @@
 
 enum {
     MAX_LIT = 128,
-    PIXEL_SIZE = 4,
 };
 
 typedef enum {
     InputIndexVertices = 0,
-    //InputIndexViewportSize = 1,
 } InputIndex;
 
 typedef enum {

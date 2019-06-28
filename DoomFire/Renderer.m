@@ -22,6 +22,28 @@ static const Vertex QUAD_VERTICES[] = {
     { {1, -1}, {1, 0} },
 };
 
+id<MTLRenderPipelineState> createPipelineState(id<MTLDevice> device,
+                                               NSString* vertexShaderName,
+                                               NSString* fragmentShaderName) {
+    id<MTLLibrary> defaultLibrary = [device newDefaultLibrary];
+    id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:vertexShaderName];
+    NSAssert(vertexFunction, @"Could not load the vertex shader");
+    id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:fragmentShaderName];
+    NSAssert(fragmentFunction, @"Could not load the fragment shader");
+
+    MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
+    pipelineStateDescriptor.label = @"Fire pipeline";
+    pipelineStateDescriptor.vertexFunction = vertexFunction;
+    pipelineStateDescriptor.fragmentFunction = fragmentFunction;
+    pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
+
+    NSError* error = nil;
+    id<MTLRenderPipelineState> pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor
+                                                                                      error:&error];
+    NSAssert(_pipelineState, @"Failed to created pipeline state: %@", error);
+    return pipelineState;
+}
+
 @implementation Renderer {
     id<MTLDevice> _device;
     id<MTLRenderPipelineState> _pipelineState;
@@ -31,6 +53,7 @@ static const Vertex QUAD_VERTICES[] = {
     MTLViewport _viewport;
 
     simd_uint2 _viewportSize;
+    simd_uint2 _pixelSize;
 
     id<MTLTexture> _texture;
     int32_t* _textureBytes;
@@ -59,9 +82,12 @@ static const Vertex QUAD_VERTICES[] = {
 
         NSLog(@"Creating the Renderer");
 
-        CGSize size = [UIScreen mainScreen].nativeBounds.size;
-        _viewportSize.x = size.width / PIXEL_SIZE;
-        _viewportSize.y = size.height / PIXEL_SIZE;
+        CGSize nativeSize = [UIScreen mainScreen].nativeBounds.size;
+        CGSize size = [UIScreen mainScreen].bounds.size;
+        _viewportSize.x = size.width / 2;
+        _viewportSize.y = size.height / 2;
+        _pixelSize.x = nativeSize.width / _viewportSize.x;
+        _pixelSize.y = nativeSize.height / _viewportSize.y;
 
         _textureBytes = createFireBuffer(_viewportSize.x, _viewportSize.y);
         NSAssert(_textureBytes, @"Failed to allocate fire bytes");
@@ -73,26 +99,11 @@ static const Vertex QUAD_VERTICES[] = {
         _texture = [_device newTextureWithDescriptor:texDtor];
         NSAssert(_texture, @"Failed to create the texture");
 
-        id<MTLLibrary> defaultLibrary = [_device newDefaultLibrary];
-        id<MTLFunction> vertexFunction = [defaultLibrary newFunctionWithName:@"vertexShader"];
-        NSAssert(vertexFunction, @"Could not load the vertex shader");
-        id<MTLFunction> fragmentFunction = [defaultLibrary newFunctionWithName:@"fragmentShader"];
-        NSAssert(fragmentFunction, @"Could not load the fragment shader");
-
-        MTLRenderPipelineDescriptor *pipelineStateDescriptor = [[MTLRenderPipelineDescriptor alloc] init];
-        pipelineStateDescriptor.label = @"Fire pipeline";
-        pipelineStateDescriptor.vertexFunction = vertexFunction;
-        pipelineStateDescriptor.fragmentFunction = fragmentFunction;
-        pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
-
-        NSError* error = nil;
-        _pipelineState = [_device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
-        NSAssert(_pipelineState, @"Failed to created pipeline state: %@", error);
-
+        _pipelineState = createPipelineState(_device, @"vertexShader", @"fragmentShader");
         _commandQueue = [_device newCommandQueue];
         NSAssert(_commandQueue, @"Command queue failed to initialize");
 
-        _viewport = (MTLViewport){0, 0, _viewportSize.x * PIXEL_SIZE, _viewportSize.y * PIXEL_SIZE, -1, 1};
+        _viewport = (MTLViewport){0, 0, _viewportSize.x * _pixelSize.x, _viewportSize.y * _pixelSize.y, -1, 1};
 
         _vertexBuffer = [_device newBufferWithBytes:QUAD_VERTICES length:sizeof(QUAD_VERTICES) options:MTLResourceStorageModeShared];
 
@@ -116,7 +127,10 @@ static const Vertex QUAD_VERTICES[] = {
 
         //millis = timerMillis();
         MTLRegion region = MTLRegionMake2D(0, 0, _viewportSize.x, _viewportSize.y);
-        [_texture replaceRegion:region mipmapLevel:0 withBytes:_textureBytes bytesPerRow:sizeof(_textureBytes[0]) * _viewportSize.x];
+        [_texture replaceRegion:region
+                    mipmapLevel:0
+                      withBytes:_textureBytes
+                    bytesPerRow:sizeof(_textureBytes[0]) * _viewportSize.x];
         //timerUpdate(&_replaceRegionTimer, timerMillis() - millis);
 
         id<MTLRenderCommandEncoder> encoder = [cmdBuffer renderCommandEncoderWithDescriptor:desc];

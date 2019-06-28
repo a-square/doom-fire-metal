@@ -16,6 +16,7 @@
 		B61D098C22C0045E00CF8A95 /* FireBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = B61D098B22C0045E00CF8A95 /* FireBuffer.c */; };
 		B61D098E22C01AB900CF8A95 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = B61D098D22C01AB900CF8A95 /* Shaders.metal */; };
 		B61E8EEF22C37423007D31D9 /* Timer.c in Sources */ = {isa = PBXBuildFile; fileRef = B61E8EEE22C37423007D31D9 /* Timer.c */; };
+		B690A44C22C5A5300039438B /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B690A44B22C5A5300039438B /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,8 @@
 		B61E8EEA22C36B6C007D31D9 /* Timer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Timer.h; sourceTree = "<group>"; };
 		B61E8EED22C36BDE007D31D9 /* Ints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ints.h; sourceTree = "<group>"; };
 		B61E8EEE22C37423007D31D9 /* Timer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Timer.c; sourceTree = "<group>"; };
+		B690A44A22C59F200039438B /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		B690A44B22C5A5300039438B /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +58,8 @@
 			children = (
 				B61D096A22BF6CF800CF8A95 /* DoomFire */,
 				B61D096922BF6CF800CF8A95 /* Products */,
+				B690A44B22C5A5300039438B /* LICENSE */,
+				B690A44A22C59F200039438B /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,6 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B690A44C22C5A5300039438B /* LICENSE in Resources */,
 				B61D097522BF6CFC00CF8A95 /* Assets.xcassets in Resources */,
 				B61D098822BF8BE400CF8A95 /* LaunchScreen.storyboard in Resources */,
 			);

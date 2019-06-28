@@ -13,6 +13,11 @@
 i32* createFireBuffer(u32 width, u32 height);
 void destroyFireBuffer(i32* buffer);
 
+void updateFireBufferNonNegPixels32(i32* restrict buffer, u32 width, u32 height);
+void updateFireBufferNoRemUnrolled(i32* restrict buffer, u32 width, u32 height);
+void updateFireBufferNoRemUnrolled2(i32* restrict buffer, u32 width, u32 height);
+void updateFireBufferNoRem(i32* restrict buffer, u32 width, u32 height);
+void updateFireBufferSimple(i32* restrict buffer, u32 width, u32 height);
 void updateFireBufferUnrolled(i32* restrict buffer, u32 width, u32 height);
 
-#define updateFireBuffer updateFireBufferUnrolled
+#define updateFireBuffer updateFireBufferNoRemUnrolled2

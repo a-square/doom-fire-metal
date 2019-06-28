@@ -20,12 +20,10 @@ typedef struct {
 vertex RasterizerData
 vertexShader(uint vertexID [[ vertex_id ]],
              constant Vertex *vertexArray [[ buffer(InputIndexVertices) ]])
-             //constant vector_uint2 *viewportSizePointer  [[ buffer(InputIndexViewportSize) ]])
 {
     RasterizerData out;
 
     float2 pixelSpacePosition = vertexArray[vertexID].position.xy;
-    //float2 viewportSize = float2(*viewportSizePointer);
 
     out.position = vector_float4(0.0f, 0.0f, 0.0f, 1.0f);
     out.position.xy = pixelSpacePosition;

@@ -12,15 +12,15 @@
 #include <math.h>
 #include <stdio.h>
 
-static mach_timebase_info_data_t s_timebase_info;
+static mach_timebase_info_data_t TIMEBASE_INFO;
 
 void timerSystemInit(void) {
-    mach_timebase_info(&s_timebase_info);
+    mach_timebase_info(&TIMEBASE_INFO);
 }
 
 double timerMillis(void) {
     // https://stackoverflow.com/a/4753909
-    return mach_absolute_time() * s_timebase_info.numer / (1000000.0 * s_timebase_info.denom);
+    return mach_absolute_time() * TIMEBASE_INFO.numer / (1000000.0 * TIMEBASE_INFO.denom);
 }
 
 void timerInit(Timer* timer, const char* name) {
