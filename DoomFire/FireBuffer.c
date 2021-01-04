@@ -151,6 +151,7 @@ void updateFireBufferNoRemUnrolled2(i32* restrict buffer, u32 width, u32 height)
         __builtin_prefetch(&buffer[dst + 5 * 16], 1, 3);
 
         // read the entire cache line at once
+        // NOTE(a-square): the assembly code shows there're enough registers for this
         i32 p0 = buffer[src++];
         i32 p1 = buffer[src++];
         i32 p2 = buffer[src++];
@@ -168,7 +169,6 @@ void updateFireBufferNoRemUnrolled2(i32* restrict buffer, u32 width, u32 height)
         i32 pe = buffer[src++];
         i32 pf = buffer[src++];
 
-        // because we perturb dst, this is probably 3 cache lines
         buffer[dst++ - (rnd & 3)] = p0 - ((rnd >> 2) & 1);
         buffer[dst++ - ((rnd >> 3) & 3)] = p1 - ((rnd >> 5) & 1);
         buffer[dst++ - ((rnd >> 6) & 3)] = p2 - ((rnd >> 8) & 1);
@@ -185,6 +185,125 @@ void updateFireBufferNoRemUnrolled2(i32* restrict buffer, u32 width, u32 height)
         buffer[dst++ - ((rnd >> 39) & 3)] = pd - ((rnd >> 41) & 1);
         buffer[dst++ - ((rnd >> 42) & 3)] = pe - ((rnd >> 44) & 1);
         buffer[dst++ - ((rnd >> 45) & 3)] = pf - ((rnd >> 47) & 1);
+        rnd = xorshift64(rnd);
+    }
+}
+
+void updateFireBufferNoRemUnrolled3(i32* restrict buffer, u32 width, u32 height) {
+    buffer = __builtin_assume_aligned(buffer, 64);
+    u64 rnd = rand64();
+
+    // NOTE(a-square): this is NOT how the original Doom fire was spread,
+    // because we're iterating in the hot-to-cold order whereas Doom fire
+    // iterated in the cold-to-hot order
+    //
+    // My wife thinks this is more fire-like
+    u64 src = 0;
+    u64 dst = width + 2;
+    for (u32 i = 0; i < ((height - 1) * width + 15) / 16; ++i) {
+        // prefetch some cache lines ahead of time,
+        // the write position is further one line ahead because
+        // write positions are perturbed
+        __builtin_prefetch(&buffer[src + 4 * 16], 0, 3);
+        __builtin_prefetch(&buffer[dst + 5 * 16], 1, 3);
+
+        i32 p0 = buffer[src++];
+        i32 p1 = buffer[src++];
+        i32 p2 = buffer[src++];
+        i32 p3 = buffer[src++];
+        i32 p4 = buffer[src++];
+        i32 p5 = buffer[src++];
+        i32 p6 = buffer[src++];
+        i32 p7 = buffer[src++];
+
+        buffer[dst++ - (rnd & 3)] = p0 - ((rnd >> 2) & 1);
+        buffer[dst++ - ((rnd >> 3) & 3)] = p1 - ((rnd >> 5) & 1);
+        buffer[dst++ - ((rnd >> 6) & 3)] = p2 - ((rnd >> 8) & 1);
+        buffer[dst++ - ((rnd >> 9) & 3)] = p3 - ((rnd >> 11) & 1);
+        buffer[dst++ - ((rnd >> 12) & 3)] = p4 - ((rnd >> 14) & 1);
+        buffer[dst++ - ((rnd >> 15) & 3)] = p5 - ((rnd >> 17) & 1);
+        buffer[dst++ - ((rnd >> 18) & 3)] = p6 - ((rnd >> 20) & 1);
+        buffer[dst++ - ((rnd >> 21) & 3)] = p7 - ((rnd >> 23) & 1);
+
+        i32 p8 = buffer[src++];
+        i32 p9 = buffer[src++];
+        i32 pa = buffer[src++];
+        i32 pb = buffer[src++];
+        i32 pc = buffer[src++];
+        i32 pd = buffer[src++];
+        i32 pe = buffer[src++];
+        i32 pf = buffer[src++];
+
+        buffer[dst++ - ((rnd >> 24) & 3)] = p8 - ((rnd >> 26) & 1);
+        buffer[dst++ - ((rnd >> 27) & 3)] = p9 - ((rnd >> 29) & 1);
+        buffer[dst++ - ((rnd >> 30) & 3)] = pa - ((rnd >> 32) & 1);
+        buffer[dst++ - ((rnd >> 33) & 3)] = pb - ((rnd >> 35) & 1);
+        buffer[dst++ - ((rnd >> 36) & 3)] = pc - ((rnd >> 38) & 1);
+        buffer[dst++ - ((rnd >> 39) & 3)] = pd - ((rnd >> 41) & 1);
+        buffer[dst++ - ((rnd >> 42) & 3)] = pe - ((rnd >> 44) & 1);
+        buffer[dst++ - ((rnd >> 45) & 3)] = pf - ((rnd >> 47) & 1);
+        rnd = xorshift64(rnd);
+    }
+}
+
+void updateFireBufferNoRemUnrolled4(i32* restrict buffer, u32 width, u32 height) {
+    buffer = __builtin_assume_aligned(buffer, 64);
+    u64 rnd = rand64();
+
+    // NOTE(a-square): this is NOT how the original Doom fire was spread,
+    // because we're iterating in the hot-to-cold order whereas Doom fire
+    // iterated in the cold-to-hot order
+    //
+    // My wife thinks this is more fire-like
+    u64 src = 0;
+    u64 dst = width + 2;
+    for (u32 i = 0; i < ((height - 1) * width + 15) / 16; ++i) {
+        // prefetch some cache lines ahead of time,
+        // the write position is further one line ahead because
+        // write positions are perturbed
+        __builtin_prefetch(&buffer[src + 4 * 16], 0, 3);
+        __builtin_prefetch(&buffer[dst + 5 * 16], 1, 3);
+
+        i32 p0 = buffer[src++];
+        i32 p1 = buffer[src++];
+        i32 p2 = buffer[src++];
+        i32 p3 = buffer[src++];
+
+        buffer[dst++ - (rnd & 3)] = p0 - ((rnd >> 2) & 1);
+        buffer[dst++ - ((rnd >> 3) & 3)] = p1 - ((rnd >> 5) & 1);
+        buffer[dst++ - ((rnd >> 6) & 3)] = p2 - ((rnd >> 8) & 1);
+        buffer[dst++ - ((rnd >> 9) & 3)] = p3 - ((rnd >> 11) & 1);
+
+        i32 p4 = buffer[src++];
+        i32 p5 = buffer[src++];
+        i32 p6 = buffer[src++];
+        i32 p7 = buffer[src++];
+
+        buffer[dst++ - ((rnd >> 12) & 3)] = p4 - ((rnd >> 14) & 1);
+        buffer[dst++ - ((rnd >> 15) & 3)] = p5 - ((rnd >> 17) & 1);
+        buffer[dst++ - ((rnd >> 18) & 3)] = p6 - ((rnd >> 20) & 1);
+        buffer[dst++ - ((rnd >> 21) & 3)] = p7 - ((rnd >> 23) & 1);
+
+        i32 p8 = buffer[src++];
+        i32 p9 = buffer[src++];
+        i32 pa = buffer[src++];
+        i32 pb = buffer[src++];
+
+        buffer[dst++ - ((rnd >> 24) & 3)] = p8 - ((rnd >> 26) & 1);
+        buffer[dst++ - ((rnd >> 27) & 3)] = p9 - ((rnd >> 29) & 1);
+        buffer[dst++ - ((rnd >> 30) & 3)] = pa - ((rnd >> 32) & 1);
+        buffer[dst++ - ((rnd >> 33) & 3)] = pb - ((rnd >> 35) & 1);
+
+        i32 pc = buffer[src++];
+        i32 pd = buffer[src++];
+        i32 pe = buffer[src++];
+        i32 pf = buffer[src++];
+
+        buffer[dst++ - ((rnd >> 36) & 3)] = pc - ((rnd >> 38) & 1);
+        buffer[dst++ - ((rnd >> 39) & 3)] = pd - ((rnd >> 41) & 1);
+        buffer[dst++ - ((rnd >> 42) & 3)] = pe - ((rnd >> 44) & 1);
+        buffer[dst++ - ((rnd >> 45) & 3)] = pf - ((rnd >> 47) & 1);
+        
         rnd = xorshift64(rnd);
     }
 }
